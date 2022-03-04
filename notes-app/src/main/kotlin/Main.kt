@@ -1,7 +1,61 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import mu.KotlinLogging
+import utils.ScannerInput
+import java.lang.System.exit
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+
+private val logger = KotlinLogging.logger {}
+
+fun main(args: Array<String>) {
+    runMenu()
+}
+
+fun mainMenu() : Int {
+    return ScannerInput.readNextInt(""" 
+         > ----------------------------------
+         > |        NOTE KEEPER APP         |
+         > ----------------------------------
+         > | NOTE MENU                      |
+         > |   1) Add a note                |
+         > |   2) List all notes            |
+         > |   3) Update a note             |
+         > |   4) Delete a note             |
+         > ----------------------------------
+         > |   0) Exit                      |
+         > ----------------------------------
+         > ==>> """.trimMargin(">"))
+}
+
+fun runMenu() {
+    do {
+        val option = mainMenu()
+        when (option) {
+            1  -> addNote()
+            2  -> listNotes()
+            3  -> updateNote()
+            4  -> deleteNote()
+            0  -> exitApp()
+            else -> System.out.println("Invalid option entered: ${option}")
+        }
+    } while (true)
+}
+
+fun addNote(){
+    logger.info { "addNote() function invoked" }
+}
+
+fun listNotes(){
+    logger.info { "listNote() function invoked" }
+}
+
+fun updateNote(){
+    logger.info { "updateNote() function invoked" }
+}
+
+fun deleteNote(){
+    logger.info { "deleteNote() function invoked" }
+}
+
+fun exitApp(){
+    println("Exiting...bye")
+    exit(0)
 }
