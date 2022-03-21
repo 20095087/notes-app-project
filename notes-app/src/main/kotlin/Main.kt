@@ -24,6 +24,11 @@ fun mainMenu() : Int {
          > |   2) List all notes            |
          > |   3) Update a note             |
          > |   4) Delete a note             |
+         > |   5) List by priority          |
+         > |   6) Number of notes           |
+         > |   7) List of archived notes    |
+         > |   8) List active notes         |
+         > |   9) Find note                 |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -38,6 +43,11 @@ fun runMenu() {
             2  -> listNotes()
             3  -> updateNote()
             4  -> deleteNote()
+            5  -> listByPriority()
+            6  -> numOfNotes()
+            7  -> listArchivedNotes()
+            8  -> listActiveNotes()
+            9  -> findNote()
             0  -> exitApp()
             else -> System.out.println("Invalid option entered: ${option}")
         }
@@ -58,9 +68,32 @@ fun addNote(){
     }
 }
 
+fun numOfNotes(){
+    println(noteAPI.numberOfNotes())
+}
+
 fun listNotes(){
     //logger.info { "listNotes() function invoked" }
     println(noteAPI.listAllNotes())
+}
+
+fun findNote(){
+    listNotes()
+    var note: Int = ScannerInput.readNextInt("Enter note index: ")
+    println(noteAPI.findNote(note))
+}
+
+fun listByPriority(){
+    var priority: Int = ScannerInput.readNextInt("Enter priority: ")
+    println(noteAPI.listNotesBySelectedPriority(priority))
+}
+
+fun listArchivedNotes(){
+    println(noteAPI.listArchivedNotes())
+}
+
+fun listActiveNotes(){
+    println(noteAPI.listActiveNotes())
 }
 
 fun updateNote(){
