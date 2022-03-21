@@ -47,12 +47,20 @@ class NoteAPITest {
     @Test
     fun `adding a Note to a populated list adds to ArrayList`(){
         val newNote = Note("Study Lambdas", 1, "College", false)
+        assertEquals(5, populatedNotes!!.numberOfNotes())
         assertTrue(populatedNotes!!.add(newNote))
+        assertEquals(6, populatedNotes!!.numberOfNotes())
+        assertEquals(newNote, populatedNotes!!.findNote(populatedNotes!!.numberOfNotes() - 1))
     }
 
     @Test
     fun `adding a Note to an empty list adds to ArrayList`(){
         val newNote = Note("Study Lambdas", 1, "College", false)
+        assertEquals(0, emptyNotes!!.numberOfNotes())
         assertTrue(emptyNotes!!.add(newNote))
+        assertEquals(1, emptyNotes!!.numberOfNotes())
+        assertEquals(newNote, emptyNotes!!.findNote(emptyNotes!!.numberOfNotes() - 1))
     }
+
+
 }
