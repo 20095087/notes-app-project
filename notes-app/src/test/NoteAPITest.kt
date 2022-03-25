@@ -94,6 +94,11 @@ class NoteAPITest {
         }
 
         @Test
+        fun `findNote returns no notes note when ArrayList is empty`(){
+            assertEquals()
+        }
+
+        @Test
         fun `listActiveNotes returns active notes when ArrayList has active notes stored`() {
             assertEquals(3, populatedNotes!!.numberOfActiveNotes())
             val activeNotesString = populatedNotes!!.listActiveNotes().lowercase()
