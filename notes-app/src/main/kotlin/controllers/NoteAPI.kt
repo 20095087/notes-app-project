@@ -1,12 +1,14 @@
 package controllers
 
 import models.Note
+import persistence.Serializer
 
 
-
-class NoteAPI {
+class NoteAPI(serializerType: Serializer) {
     private var notes = ArrayList<Note>()
-    
+
+    private var serializer: Serializer = serializerType
+
     fun add(note: Note): Boolean {
         return notes.add(note)
     }
@@ -137,6 +139,10 @@ class NoteAPI {
         return counter
     }
 
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, notes);
+    }
+
     fun findNote(index: Int): Note? {
         return if (isValidListIndex(index, notes)) {
             notes[index]
@@ -147,4 +153,15 @@ class NoteAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    @Throws(Exception::class)
+    fun load() {
+        notes = serializer.read() as ArrayList<Note>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(notes)
+    }
+
 }
