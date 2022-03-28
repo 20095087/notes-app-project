@@ -97,11 +97,42 @@ fun listActiveNotes(){
 }
 
 fun updateNote(){
-    logger.info { "updateNote() function invoked" }
+//    logger.info { "updateNote() function invoked" }
+    listNotes()
+    if (noteAPI.numberOfNotes() > 0) {
+        //only ask the user to choose the note if notes exist
+        val indexToUpdate = readNextInt("Enter the index of the note to update: ")
+        if (noteAPI.isValidIndex(indexToUpdate)) {
+            val noteTitle = readNextLine("Enter a title for the note: ")
+            val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            val noteCategory = readNextLine("Enter a category for the note: ")
+
+            //pass the index of the note and the new note details to NoteAPI for updating and check for success.
+            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
 }
 
 fun deleteNote(){
-    logger.info { "deleteNote() function invoked" }
+//    logger.info { "deleteNote() function invoked" }
+    listNotes()
+    if (noteAPI.numberOfNotes() > 0) {
+        //only ask the user to choose the note to delete if notes exist
+        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
+        //pass the index of the note to NoteAPI for deleting and check for success.
+        val noteToDelete = noteAPI.deleteNote(indexToDelete)
+        if (noteToDelete != null) {
+            println("Delete Successful! Deleted note: ${noteToDelete.noteTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp(){
