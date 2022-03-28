@@ -157,4 +157,5 @@ class NoteAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(notes)
     }
+
 }
