@@ -88,6 +88,7 @@ class NoteAPITest {
     }
 
     @Nested
+
     inner class UpdateNotes {
         @Test
         fun `updating a note that does not exist returns false`(){
@@ -109,6 +110,23 @@ class NoteAPITest {
             assertEquals("Updating Note", populatedNotes!!.findNote(4)!!.noteTitle)
             assertEquals(2, populatedNotes!!.findNote(4)!!.notePriority)
             assertEquals("College", populatedNotes!!.findNote(4)!!.noteCategory)
+
+    inner class DeleteNotes {
+
+        @Test
+        fun `deleting a Note that does not exist, returns null`() {
+            assertNull(emptyNotes!!.deleteNote(0))
+            assertNull(populatedNotes!!.deleteNote(-1))
+            assertNull(populatedNotes!!.deleteNote(5))
+        }
+
+        @Test
+        fun `deleting a note that exists delete and returns deleted object`() {
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+            assertEquals(swim, populatedNotes!!.deleteNote(4))
+            assertEquals(4, populatedNotes!!.numberOfNotes())
+            assertEquals(learnKotlin, populatedNotes!!.deleteNote(0))
+            assertEquals(3, populatedNotes!!.numberOfNotes())
         }
     }
 }

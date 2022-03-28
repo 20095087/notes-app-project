@@ -120,7 +120,8 @@ fun updateNote(){
 }
 
 fun deleteNote(){
-    //logger.info { "deleteNotes() function invoked" }
+//    logger.info { "deleteNote() function invoked" }
+
     listNotes()
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes exist
