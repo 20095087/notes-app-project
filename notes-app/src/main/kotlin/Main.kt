@@ -11,9 +11,6 @@ import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
 private val noteAPI = NoteAPI(XMLSerializer(File("notes.xml")))
 
-private var populatedNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
-private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
-
 fun main(args: Array<String>) {
     runMenu()
 }
