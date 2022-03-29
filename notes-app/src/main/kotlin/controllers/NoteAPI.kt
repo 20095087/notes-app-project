@@ -13,12 +13,6 @@ class NoteAPI(serializerType: Serializer) {
         return notes.add(note)
     }
 
-    fun deleteNote(indexToDelete: Int): Note? {
-        return if (isValidListIndex(indexToDelete, notes)) {
-            notes.removeAt(indexToDelete)
-        } else null
-    }
-
     fun listAllNotes(): String {
         return if (notes.isEmpty()) {
             "No notes stored"
@@ -117,6 +111,18 @@ class NoteAPI(serializerType: Serializer) {
         return counter
     }
 
+    fun archiveNote(index: Int): Boolean {
+        //find the note object by the index number
+        val foundNote = findNote(index)
+        //if we find a note with this index.
+        if (foundNote != null) {
+            foundNote.isNoteArchived = true
+            return true
+        }
+        //if we did not find a note with the passed in index
+        return false
+    }
+
     fun numberOfActiveNotes(): Int {
         //return notes.stream().filter { p: Note -> !p.isNoteArchived }.count().toInt()
         var counter = 0
@@ -163,5 +169,4 @@ class NoteAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(notes)
     }
-
 }
