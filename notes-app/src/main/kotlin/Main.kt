@@ -27,11 +27,12 @@ fun mainMenu() : Int {
          > |   2) List all notes            |
          > |   3) Update a note             |
          > |   4) Delete a note             |
-         > |   5) List by priority          |
-         > |   6) Number of notes           |
-         > |   7) List of archived notes    |
-         > |   8) List active notes         |
-         > |   9) Find note                 |
+         > |   5) Archive note              |
+         > |   6) List by priority          |
+         > |   7) Number of notes           |
+         > |   8) List archived notes       |
+         > |   9) List active notes         |
+         > |   10) Find note                |
          > |   20) Save notes               |
          > |   21) Load notes               |
          > ----------------------------------
@@ -48,11 +49,12 @@ fun runMenu() {
             2  -> listNotes()
             3  -> updateNote()
             4  -> deleteNote()
-            5  -> listByPriority()
-            6  -> numOfNotes()
-            7  -> listArchivedNotes()
-            8  -> listActiveNotes()
-            9  -> findNote()
+            5  -> archiveNote()
+            6  -> listByPriority()
+            7  -> numOfNotes()
+            8  -> listArchivedNotes()
+            9  -> listActiveNotes()
+            10  -> findNote()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -89,6 +91,25 @@ fun save() {
         noteAPI.store()
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
+    }
+}
+
+fun archiveNote(){
+    // display all active notes
+    listActiveNotes()
+    if (noteAPI.numberOfNotes() > 0) {
+        //only ask the user to choose the note if notes exist
+        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
+        if (noteAPI.isValidIndex(indexToArchive)) {
+            //pass the index of the note to archive and if the note exists then archive
+            if (noteAPI.archiveNote(indexToArchive)){
+                println("Archive Successful")
+            } else {
+                println("Archive Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
+        }
     }
 }
 

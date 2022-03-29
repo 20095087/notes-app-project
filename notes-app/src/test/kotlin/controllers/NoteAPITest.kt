@@ -22,7 +22,7 @@ class NoteAPITest {
     private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         learnKotlin = Note("Learning Kotlin", 5, "College", false)
         summerHoliday = Note("Summer Holiday to France", 1, "Holiday", false)
         codeApp = Note("Code App", 4, "Work", true)
@@ -38,7 +38,7 @@ class NoteAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         learnKotlin = null
         summerHoliday = null
         codeApp = null
@@ -72,7 +72,7 @@ class NoteAPITest {
     @Nested
     inner class UpdateNotes {
         @Test
-        fun `updating a note that does not exist returns false`(){
+        fun `updating a note that does not exist returns false`() {
             assertFalse(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work", false)))
             assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work", false)))
             assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work", false)))
@@ -91,6 +91,24 @@ class NoteAPITest {
             assertEquals("Updating Note", populatedNotes!!.findNote(4)!!.noteTitle)
             assertEquals(2, populatedNotes!!.findNote(4)!!.notePriority)
             assertEquals("College", populatedNotes!!.findNote(4)!!.noteCategory)
+        }
+    }
+
+    @Nested
+    inner class ArchiveNotes {
+        @Test
+        fun `archive a note that does not exist returns false`() {
+            assertFalse(populatedNotes!!.archiveNote(6))
+            assertFalse(populatedNotes!!.archiveNote(-1))
+            assertFalse(emptyNotes!!.archiveNote(0))
+        }
+
+        @Test
+        fun `archive a note that exists returns true and archive`() {
+            //update note 5 with new information and ensure contents updated successfully
+            assertTrue(populatedNotes!!.archiveNote(4))
+            assertTrue(populatedNotes!!.archiveNote(1))
+            assertTrue(populatedNotes!!.archiveNote(2))
         }
     }
 
@@ -156,7 +174,8 @@ class NoteAPITest {
         @Test
         fun `listNotesBySelectedPriority returns No Notes when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfNotes())
-            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
+            assertTrue(
+                emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
             )
         }
 
@@ -215,39 +234,40 @@ class NoteAPITest {
     }
 
     @Test
-        fun `saving and loading an empty collection in JSON doesn't crash app`() {
-            // Saving an empty notes.json file.
-            val storingNotes = NoteAPI(JSONSerializer(File("notes.json")))
-            storingNotes.store()
+    fun `saving and loading an empty collection in JSON doesn't crash app`() {
+        // Saving an empty notes.json file.
+        val storingNotes = NoteAPI(JSONSerializer(File("notes.json")))
+        storingNotes.store()
 
-            //Loading the empty notes.json file into a new object
-            val loadedNotes = NoteAPI(JSONSerializer(File("notes.json")))
-            loadedNotes.load()
+        //Loading the empty notes.json file into a new object
+        val loadedNotes = NoteAPI(JSONSerializer(File("notes.json")))
+        loadedNotes.load()
 
-            //Comparing the source of the notes (storingNotes) with the json loaded notes (loadedNotes)
-            assertEquals(0, storingNotes.numberOfNotes())
-            assertEquals(0, loadedNotes.numberOfNotes())
-            assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
-        }
+        //Comparing the source of the notes (storingNotes) with the json loaded notes (loadedNotes)
+        assertEquals(0, storingNotes.numberOfNotes())
+        assertEquals(0, loadedNotes.numberOfNotes())
+        assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
+    }
 
-        @Test
-        fun `saving and loading an loaded collection in JSON doesn't loose data`() {
-            // Storing 3 notes to the notes.json file.
-            val storingNotes = NoteAPI(JSONSerializer(File("notes.json")))
-            storingNotes.add(testApp!!)
-            storingNotes.add(swim!!)
-            storingNotes.add(summerHoliday!!)
-            storingNotes.store()
+    @Test
+    fun `saving and loading an loaded collection in JSON doesn't loose data`() {
+        // Storing 3 notes to the notes.json file.
+        val storingNotes = NoteAPI(JSONSerializer(File("notes.json")))
+        storingNotes.add(testApp!!)
+        storingNotes.add(swim!!)
+        storingNotes.add(summerHoliday!!)
+        storingNotes.store()
 
-            //Loading notes.json into a different collection
-            val loadedNotes = NoteAPI(JSONSerializer(File("notes.json")))
-            loadedNotes.load()
+        //Loading notes.json into a different collection
+        val loadedNotes = NoteAPI(JSONSerializer(File("notes.json")))
+        loadedNotes.load()
 
-            //Comparing the source of the notes (storingNotes) with the json loaded notes (loadedNotes)
-            assertEquals(3, storingNotes.numberOfNotes())
-            assertEquals(3, loadedNotes.numberOfNotes())
-            assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
-            assertEquals(storingNotes.findNote(0), loadedNotes.findNote(0))
-            assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
-            assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
-        }
+        //Comparing the source of the notes (storingNotes) with the json loaded notes (loadedNotes)
+        assertEquals(3, storingNotes.numberOfNotes())
+        assertEquals(3, loadedNotes.numberOfNotes())
+        assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
+        assertEquals(storingNotes.findNote(0), loadedNotes.findNote(0))
+        assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
+        assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
+    }
+}
