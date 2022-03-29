@@ -3,11 +3,15 @@ A console driven CRUD menu notes app. This app allows users to create, update, l
 
 
 # Features
-- CRUD skeleton menu.
-- Ability to create notes
-- Logging capabilities
-- deleting notes
-- updating notes
-- persistence
-- - saving created notes
-- - loading saved notes
+- Create new notes
+- List all notes
+- List all active notes
+- List all archived notes
+- List notes by priority
+- Update previous notes
+- List number of notes
+- Delete notes
+- Archive note
+- Find note
+- Save notes
+- Load notes
