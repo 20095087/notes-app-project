@@ -104,6 +104,7 @@ class NoteAPI(serializerType: Serializer) {
 
     fun searchForNote(title: String) =
        notes.filter { note -> note.noteTitle.contains(title, ignoreCase = true)}
+           .joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString()  }
 
     //utility method to determine if an index is valid in a list.
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
