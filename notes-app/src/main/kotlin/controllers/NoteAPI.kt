@@ -48,26 +48,10 @@ class NoteAPI(serializerType: Serializer) {
     fun listArchivedNotes(): String =
         if(numberOfActiveNotes() == 0) "No archived notes stored"
         else notes.filter{note -> note.isNoteArchived == true}.joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString()  }
-
-    fun listNotesBySelectedPriority(priority: Int): String {
-        return if (notes.isEmpty()) {
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                if (notes[i].notePriority == priority) {
-                    listOfNotes +=
-                        """$i: ${notes[i]}
-                        """.trimIndent()
-                }
-            }
-            if (listOfNotes.equals("")) {
-                "No notes with priority: $priority"
-            } else {
-                "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
-            }
-        }
-    }
+    
+    fun listNotesBySelectedPriority(priority: Int): String =
+        if(notes.isEmpty()) "No notes stored."
+        else notes.filter { note -> note.notePriority == priority }.joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString() }
 
     // returns the the amount of notes.
     fun numberOfNotes(): Int {
