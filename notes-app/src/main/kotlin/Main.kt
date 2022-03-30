@@ -6,6 +6,7 @@ import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.StatusUtility
 import java.io.File
 import java.lang.System.exit
 
@@ -115,11 +116,7 @@ fun addNote(){
     // get the user to enter the status of the note
     var status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
     // validate if the status is one fo the allowed statuses
-    while(!status.equals("ToDo") || !status.equals("Doing") || !status.equals("Done")) {
-        // if the status is correct then break out of the while loop
-        if(status.equals("ToDo") || status.equals("Doing") || status.equals("Done")){
-            break;
-        }
+    while(!StatusUtility.isValidStatus(status)){
         status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
     }
     val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, status,false))

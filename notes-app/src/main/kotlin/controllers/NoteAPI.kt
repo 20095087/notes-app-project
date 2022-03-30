@@ -1,6 +1,8 @@
 package controllers
 
 import models.Note
+import utils.CategoryUtility
+import utils.StatusUtility
 import persistence.Serializer
 
 
