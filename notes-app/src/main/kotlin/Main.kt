@@ -35,6 +35,7 @@ fun mainMenu() : Int {
          > |   10) Find note                     |
          > |   11) Number of Active Notes        |
          > |   12) Number of Notes by Priority   |
+         > |   13) Number of Archived notes      |
          > |   20) Save notes                    |
          > |   21) Load notes                    |
          > ---------------------------------------
@@ -59,6 +60,7 @@ fun runMenu() {
             10  -> findNote()
             11  -> numberOfActiveNotes()
             12  -> numberOfNotesByPriority()
+            13  -> numberOfArchivedNotes()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -155,6 +157,10 @@ fun findNote(){
 fun numberOfNotesByPriority(){
     var priority: Int = ScannerInput.readNextInt("Enter priority: ")
     println(noteAPI.numberOfNotesByPriority(priority))
+}
+
+fun numberOfArchivedNotes(){
+    println(noteAPI.numberOfArchivedNotes())
 }
 
 fun listByPriority(){
