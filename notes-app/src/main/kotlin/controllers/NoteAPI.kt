@@ -57,12 +57,8 @@ class NoteAPI(serializerType: Serializer) {
         return notes.size
     }
 
-    fun numberOfArchivedNotes(): Int {
-        return notes.stream()
-            .filter{note: Note -> note.isNoteArchived}
-            .count()
-            .toInt()
-    }
+    fun numberOfArchivedNotes(): Int = notes.filter { note: Note -> note.isNoteArchived }.count()
+
 
     fun archiveNote(index: Int): Boolean {
         //find the note object by the index number
