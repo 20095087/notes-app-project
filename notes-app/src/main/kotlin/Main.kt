@@ -3,6 +3,7 @@ import models.Note
 import mu.KotlinLogging
 import persistence.JSONSerializer
 import persistence.XMLSerializer
+import utils.CategoryUtility
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -106,11 +107,7 @@ fun addNote(){
     // get the user to enter the category of the note
     var noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
     // validate if the category is one of the allowed categories
-    while(!noteCategory.equals("Shopping") || !noteCategory.equals("Bills") || !noteCategory.equals("Other") || !noteCategory.equals("College") || !noteCategory.equals("Home")) {
-        // if the category is correct then break out of the while loop
-        if(noteCategory.equals("Shopping") || noteCategory.equals("Bills") || noteCategory.equals("Other") || noteCategory.equals("College") || noteCategory.equals("Home")){
-            break;
-        }
+    while(!CategoryUtility.isValidCategory(noteCategory)) {
         noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
     }
     // get the user to enter the status of the note
