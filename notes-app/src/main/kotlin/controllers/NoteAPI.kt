@@ -74,9 +74,8 @@ class NoteAPI(serializerType: Serializer) {
 
     fun numberOfActiveNotes(): Int = notes.filter { note: Note -> !note.isNoteArchived }.count()
 
-    fun numberOfNotesByPriority(priority: Int): Int {
-        return notes.stream().filter{note: Note -> note.notePriority == priority}.count().toInt()
-    }
+    fun numberOfNotesByPriority(priority: Int): Int = notes.filter{note: Note -> note.notePriority == priority}.count()
+
 
     fun isValidIndex(index: Int) :Boolean{
         return isValidListIndex(index, notes);
