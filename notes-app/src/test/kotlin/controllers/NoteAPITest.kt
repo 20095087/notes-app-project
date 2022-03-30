@@ -113,6 +113,43 @@ class NoteAPITest {
     }
 
     @Nested
+    inner class SearchMethods{
+        @Test
+        fun `search notes by title returns no notes when no notes with that title exist`(){
+            // searching a populated collection for a title that does not exist
+            assertEquals(5,populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchForNote("no result expected")
+            assertTrue(searchResults.isEmpty())
+
+            // searching an empty collection
+            assertEquals(0,emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchForNote("").isEmpty())
+        }
+
+        @Test
+        fun `search notes by title returns notes whne notes with that title exist`(){
+            assertEquals(5,populatedNotes!!.numberOfNotes())
+
+            // searching a populated collection for a full title that exists
+            var searchResults = populatedNotes!!.searchForNote("Code App")
+            assertTrue(searchResults.contains("Code App"))
+            assertFalse(searchResults.contains("Test App"))
+
+            // searching a populated collection for a partial title that exists
+            searchResults = populatedNotes!!.searchForNote("App")
+            assertTrue(searchResults.contains("Code App"))
+            assertTrue(searchResults.contains("Test App"))
+            assertFalse(searchResults.contains("Swim - Pool"))
+
+            // searching a populated collection for a partial title that exists but case dont match
+            searchResults = populatedNotes!!.searchForNote("aPp")
+            assertTrue(searchResults.contains("Code App"))
+            assertTrue(searchResults.contains("Test App"))
+            assertFalse(searchResults.contains("Swim - Pool"))
+        }
+    }
+
+    @Nested
     inner class ListNotes {
 
         @Test
@@ -184,8 +221,7 @@ class NoteAPITest {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
             assertEquals(5, populatedNotes!!.numberOfNotes())
             val priority2String = populatedNotes!!.listNotesBySelectedPriority(2).lowercase()
-            assertTrue(priority2String.contains("no notes"))
-            assertTrue(priority2String.contains("2"))
+            assertFalse(priority2String.contains("2"))
         }
 
         @Test
@@ -193,8 +229,7 @@ class NoteAPITest {
             //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
             assertEquals(5, populatedNotes!!.numberOfNotes())
             val priority1String = populatedNotes!!.listNotesBySelectedPriority(1).lowercase()
-            assertTrue(priority1String.contains("1 note"))
-            assertTrue(priority1String.contains("priority 1"))
+            assertTrue(priority1String.contains("1"))
             assertTrue(priority1String.contains("summer holiday"))
             assertFalse(priority1String.contains("swim"))
             assertFalse(priority1String.contains("learning kotlin"))
@@ -203,8 +238,7 @@ class NoteAPITest {
 
 
             val priority4String = populatedNotes!!.listNotesBySelectedPriority(4).lowercase(Locale.getDefault())
-            assertTrue(priority4String.contains("2 note"))
-            assertTrue(priority4String.contains("priority 4"))
+            assertTrue(priority4String.contains("2"))
             assertFalse(priority4String.contains("swim"))
             assertTrue(priority4String.contains("code app"))
             assertTrue(priority4String.contains("test app"))
