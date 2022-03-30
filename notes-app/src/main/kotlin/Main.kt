@@ -49,23 +49,41 @@ fun runMenu() {
     do {
         val option = mainMenu()
         when (option) {
+            // calls the addNote() function
             1  -> addNote()
+            // calls the listNotes() function
             2  -> listNotes()
+            // calls the updateNote() function
             3  -> updateNote()
+            // calls the deleteNote() function
             4  -> deleteNote()
+            // calls the archiveNote() function
             5  -> archiveNote()
+            // calls the listByPriority() function
             6  -> listByPriority()
+            // calls the numOfNotes() function
             7  -> numOfNotes()
+            // calls the listArchivedNotes() function
             8  -> listArchivedNotes()
+            // calls the listActiveNotes() function
             9  -> listActiveNotes()
+            // calls the findNote() function
             10  -> findNote()
+            // calls the numberOfActiveNotes() function
             11  -> numberOfActiveNotes()
+            // calls the numberOfNotesByPriority() function
             12  -> numberOfNotesByPriority()
+            // calls the numberOfArchivedNotes() function
             13  -> numberOfArchivedNotes()
+            // calls the searchByTitle() function
             14  -> searchByTitle()
+            // calls the save() function
             20  -> save()
+            // calls the load() function
             21  -> load()
+            // calls the exitApp() function
             0  -> exitApp()
+            // else display error message
             else -> System.out.println("Invalid option entered: ${option}")
         }
     } while (true)

@@ -15,8 +15,7 @@ class NoteAPI(serializerType: Serializer) {
 
     fun listAllNotes(): String =
         if  (notes.isEmpty()) "No notes stored"
-        else notes.joinToString (separator = "\n") { note ->
-            notes.indexOf(note).toString() + ": " + note.toString() }
+        else formatListString(notes)
 
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
         //find the note object by the index number
@@ -42,12 +41,12 @@ class NoteAPI(serializerType: Serializer) {
 
     fun listActiveNotes(): String =
         if(numberOfActiveNotes() == 0) "No active notes stored"
-        else notes.filter{note -> note.isNoteArchived == false}.joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString()  }
+        else formatListString(notes.filter { note -> !note.isNoteArchived })
 
 
     fun listArchivedNotes(): String =
         if(numberOfActiveNotes() == 0) "No archived notes stored"
-        else notes.filter{note -> note.isNoteArchived == true}.joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString()  }
+        else formatListString(notes.filter { note -> note.isNoteArchived })
     
     fun listNotesBySelectedPriority(priority: Int): String =
         if(notes.isEmpty()) "No notes stored."
@@ -111,11 +110,20 @@ class NoteAPI(serializerType: Serializer) {
         return (index >= 0 && index < list.size)
     }
 
+    // this function formats the notes
+    // we created this function so we would not repeat ourselves
+    fun formatListString(notesToFormat : List<Note>) : String =
+        notesToFormat
+            .joinToString (separator = "\n") { note ->
+                notes.indexOf(note).toString() + ": " + note.toString() }
+
+    // this function loads the notes
     @Throws(Exception::class)
     fun load() {
         notes = serializer.read() as ArrayList<Note>
     }
 
+    // this function saves the notes ot a file
     @Throws(Exception::class)
     fun store() {
         serializer.write(notes)
