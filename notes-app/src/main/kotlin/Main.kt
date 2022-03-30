@@ -19,25 +19,27 @@ fun main(args: Array<String>) {
 
 fun mainMenu() : Int {
     return ScannerInput.readNextInt(""" 
-         > ----------------------------------
-         > |        NOTE KEEPER APP         |
-         > ----------------------------------
-         > | NOTE MENU                      |
-         > |   1) Add a note                |
-         > |   2) List all notes            |
-         > |   3) Update a note             |
-         > |   4) Delete a note             |
-         > |   5) Archive note              |
-         > |   6) List by priority          |
-         > |   7) Number of notes           |
-         > |   8) List archived notes       |
-         > |   9) List active notes         |
-         > |   10) Find note                |
-         > |   20) Save notes               |
-         > |   21) Load notes               |
-         > ----------------------------------
-         > |   0) Exit                      |
-         > ----------------------------------
+         > ---------------------------------------
+         > |        NOTE KEEPER APP              |
+         > ---------------------------------------
+         > | NOTE MENU                           |
+         > |   1) Add a note                     |
+         > |   2) List all notes                 |
+         > |   3) Update a note                  |
+         > |   4) Delete a note                  |
+         > |   5) Archive note                   |
+         > |   6) List by priority               |
+         > |   7) Number of notes                |
+         > |   8) List archived notes            |
+         > |   9) List active notes              |
+         > |   10) Find note                     |
+         > |   11) Number of Active Notes        |
+         > |   12) Number of Notes by Priority   |
+         > |   20) Save notes                    |
+         > |   21) Load notes                    |
+         > ---------------------------------------
+         > |   0) Exit                           |
+         > ---------------------------------------
          > ==>> """.trimMargin(">"))
 }
 
@@ -55,6 +57,8 @@ fun runMenu() {
             8  -> listArchivedNotes()
             9  -> listActiveNotes()
             10  -> findNote()
+            11  -> numberOfActiveNotes()
+            12  -> numberOfNotesByPriority()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -148,6 +152,11 @@ fun findNote(){
     println(noteAPI.findNote(note))
 }
 
+fun numberOfNotesByPriority(){
+    var priority: Int = ScannerInput.readNextInt("Enter priority: ")
+    println(noteAPI.numberOfNotesByPriority(priority))
+}
+
 fun listByPriority(){
     var priority: Int = ScannerInput.readNextInt("Enter priority: ")
     println(noteAPI.listNotesBySelectedPriority(priority))
@@ -155,6 +164,10 @@ fun listByPriority(){
 
 fun listArchivedNotes(){
     println(noteAPI.listArchivedNotes())
+}
+
+fun numberOfActiveNotes(){
+    println(noteAPI.numberOfActiveNotes())
 }
 
 fun listActiveNotes(){
