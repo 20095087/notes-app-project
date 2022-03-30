@@ -101,14 +101,10 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun numberOfArchivedNotes(): Int {
-        //return notes.stream().filter { obj: Note -> obj.isNoteArchived }.count().toInt()
-        var counter = 0
-        for (note in notes) {
-            if (note.isNoteArchived) {
-                counter++
-            }
-        }
-        return counter
+        return notes.stream()
+            .filter{note: Note -> note.isNoteArchived}
+            .count()
+            .toInt()
     }
 
     fun archiveNote(index: Int): Boolean {
@@ -124,25 +120,14 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun numberOfActiveNotes(): Int {
-        //return notes.stream().filter { p: Note -> !p.isNoteArchived }.count().toInt()
-        var counter = 0
-        for (note in notes) {
-            if (!note.isNoteArchived) {
-                counter++
-            }
-        }
-        return counter
+        return notes.stream()
+            .filter{note: Note -> !note.isNoteArchived}
+            .count()
+            .toInt()
     }
 
     fun numberOfNotesByPriority(priority: Int): Int {
-        //return notes.stream().filter { p: Note -> p.notePriority == priority }.count().toInt()
-        var counter = 0
-        for (note in notes) {
-            if (note.notePriority == priority) {
-                counter++
-            }
-        }
-        return counter
+        return notes.stream().filter{note: Note -> note.notePriority == priority}.count().toInt()
     }
 
     fun isValidIndex(index: Int) :Boolean{
