@@ -72,12 +72,7 @@ class NoteAPI(serializerType: Serializer) {
         return false
     }
 
-    fun numberOfActiveNotes(): Int {
-        return notes.stream()
-            .filter{note: Note -> !note.isNoteArchived}
-            .count()
-            .toInt()
-    }
+    fun numberOfActiveNotes(): Int = notes.filter { note: Note -> !note.isNoteArchived }.count()
 
     fun numberOfNotesByPriority(priority: Int): Int {
         return notes.stream().filter{note: Note -> note.notePriority == priority}.count().toInt()
