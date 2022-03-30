@@ -36,6 +36,7 @@ fun mainMenu() : Int {
          > |   11) Number of Active Notes        |
          > |   12) Number of Notes by Priority   |
          > |   13) Number of Archived notes      |
+         > |   14) Search for note               |
          > |   20) Save notes                    |
          > |   21) Load notes                    |
          > ---------------------------------------
@@ -61,6 +62,7 @@ fun runMenu() {
             11  -> numberOfActiveNotes()
             12  -> numberOfNotesByPriority()
             13  -> numberOfArchivedNotes()
+            14  -> searchByTitle()
             20  -> save()
             21  -> load()
             0  -> exitApp()
@@ -146,6 +148,11 @@ fun load() {
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
     }
+}
+
+fun searchByTitle(){
+    var title = ScannerInput.readNextLine("Enter note title: ")
+    println(noteAPI.searchForNote(title))
 }
 
 fun findNote(){
