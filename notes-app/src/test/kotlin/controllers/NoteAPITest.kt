@@ -73,9 +73,9 @@ class NoteAPITest {
     inner class UpdateNotes {
         @Test
         fun `updating a note that does not exist returns false`() {
-            assertFalse(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work", "todo",false)))
-            assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work", "todo",false)))
-            assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work", "todo",false)))
+            assertFalse(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work", "hi",false)))
+            assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work", "banjo",false)))
+            assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work", "yes",false)))
         }
 
         @Test

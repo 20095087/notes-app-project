@@ -2,8 +2,8 @@ import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
 import persistence.JSONSerializer
-import persistence.XMLSerializer
 import utils.CategoryUtility
+import utils.Utilities
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -97,12 +97,8 @@ fun addNote(){
     // get the user to enter the priority of the note
     var notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
     // validate if the note priority is withing 0 to 5
-    while(notePriority < 0 && notePriority > 5) {
+    while(!Utilities.validRange(notePriority,1,5)) {
         notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-        // if the priority is greater than 0 but less than 6 then break out of the while loop
-        if(notePriority > 0 && notePriority < 6){
-            break;
-        }
     }
     // get the user to enter the category of the note
     var noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")

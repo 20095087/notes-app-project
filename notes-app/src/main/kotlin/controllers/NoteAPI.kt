@@ -1,9 +1,8 @@
 package controllers
 
 import models.Note
-import utils.CategoryUtility
-import utils.StatusUtility
 import persistence.Serializer
+import utils.Utilities
 
 
 class NoteAPI(serializerType: Serializer) {
@@ -36,7 +35,7 @@ class NoteAPI(serializerType: Serializer) {
     }
 
     fun deleteNote(indexToDelete: Int): Note? {
-        return if (isValidListIndex(indexToDelete, notes)) {
+        return if (Utilities.isValidListIndex(indexToDelete, notes)) {
             notes.removeAt(indexToDelete)
         } else null
     }
@@ -80,11 +79,11 @@ class NoteAPI(serializerType: Serializer) {
 
 
     fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, notes);
+        return Utilities.isValidListIndex(index, notes);
     }
 
     fun findNote(index: Int): Note? {
-        return if (isValidListIndex(index, notes)) {
+        return if (Utilities.isValidListIndex(index, notes)) {
             notes[index]
         } else null
     }
@@ -92,11 +91,6 @@ class NoteAPI(serializerType: Serializer) {
     fun searchForNote(title: String) =
        notes.filter { note -> note.noteTitle.contains(title, ignoreCase = true)}
            .joinToString(separator = "\n") { note -> notes.indexOf(note).toString() + ": " + note.toString()  }
-
-    //utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
-    }
 
     // this function formats the notes
     // we created this function so we would not repeat ourselves
