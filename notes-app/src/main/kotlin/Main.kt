@@ -30,15 +30,19 @@ fun mainMenu() : Int {
          > |   3) Update a note                  |
          > |   4) Delete a note                  |
          > |   5) Archive note                   |
+         > ---------------------------------------
          > |   6) List by priority               |
-         > |   7) Number of notes                |
-         > |   8) List archived notes            |
-         > |   9) List active notes              |
-         > |   10) Find note                     |
-         > |   11) Number of Active Notes        |
-         > |   12) Number of Notes by Priority   |
-         > |   13) Number of Archived notes      |
+         > |   7) List archived notes            |
+         > |   8) List active notes              |
+         > ---------------------------------------
+         > |   9) Number of notes                |
+         > |   10) Number of Active Notes        |
+         > |   11) Number of Notes by Priority   |
+         > |   12) Number of Archived notes      |
+         > ---------------------------------------
+         > |   13) Find note                     |
          > |   14) Search for note               |
+         > ---------------------------------------
          > |   20) Save notes                    |
          > |   21) Load notes                    |
          > ---------------------------------------
@@ -64,19 +68,19 @@ fun runMenu() {
             // calls the listByPriority() function
             6  -> listByPriority()
             // calls the numOfNotes() function
-            7  -> numOfNotes()
+            7  -> listArchivedNotes()
             // calls the listArchivedNotes() function
-            8  -> listArchivedNotes()
+            8  -> listActiveNotes()
             // calls the listActiveNotes() function
-            9  -> listActiveNotes()
+            9  -> numOfNotes()
             // calls the findNote() function
-            10  -> findNote()
+            10  -> numberOfActiveNotes()
             // calls the numberOfActiveNotes() function
-            11  -> numberOfActiveNotes()
+            11  -> numberOfNotesByPriority()
             // calls the numberOfNotesByPriority() function
-            12  -> numberOfNotesByPriority()
+            12  -> numberOfArchivedNotes()
             // calls the numberOfArchivedNotes() function
-            13  -> numberOfArchivedNotes()
+            13  -> findNote()
             // calls the searchByTitle() function
             14  -> searchByTitle()
             // calls the save() function
