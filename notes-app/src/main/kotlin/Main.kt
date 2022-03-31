@@ -2,10 +2,12 @@ import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
 import persistence.JSONSerializer
-import persistence.XMLSerializer
+import utils.CategoryUtility
+import utils.Utilities
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.StatusUtility
 import java.io.File
 import java.lang.System.exit
 
@@ -84,7 +86,7 @@ fun runMenu() {
             // calls the exitApp() function
             0  -> exitApp()
             // else display error message
-            else -> System.out.println("Invalid option entered: ${option}")
+            else -> System.out.println("Invalid option entered: $option")
         }
     } while (true)
 }
@@ -92,10 +94,27 @@ fun runMenu() {
 fun addNote(){
     //logger.info { "addNote() function invoked" }
     val noteTitle = readNextLine("Enter a title for the note: ")
-    val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-    val noteCategory = readNextLine("Enter a category for the note: ")
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false))
-
+    // get the user to enter the priority of the note
+    var notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+    // validate if the note priority is withing 0 to 5
+    while(!Utilities.validRange(notePriority,1,5)) {
+        notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+    }
+    // get the user to enter the category of the note
+    var noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
+    // validate if the category is one of the allowed categories
+    while(!CategoryUtility.isValidCategory(noteCategory)) {
+        noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
+    }
+    // get the user to enter the status of the note
+    var status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
+    // validate if the status is one fo the allowed statuses
+    while(!StatusUtility.isValidStatus(status)){
+        status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
+    }
+    // get the user to enter the content of the note
+    var content = readNextLine("Enter the content of the note: ")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, status, content,false))
     if (isAdded) {
         println("Added Successfully")
     } else {
@@ -108,6 +127,7 @@ fun numOfNotes(){
 }
 
 fun listNotes() {
+    // if there are notes
     if (noteAPI.numberOfNotes() > 0) {
         val option = readNextInt(
             """
@@ -122,7 +142,7 @@ fun listNotes() {
             1 -> listAllNotes();
             2 -> listActiveNotes();
             3 -> listArchivedNotes();
-            else -> println("Invalid option entered: " + option);
+            else -> println("Invalid option entered: " + option)
         }
     } else {
         println("Option Invalid - No notes stored");
@@ -211,27 +231,56 @@ fun updateNote(){
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note if notes exist
         val indexToUpdate = readNextInt("Enter the index of the note to update: ")
-        if (noteAPI.isValidIndex(indexToUpdate)) {
-            val noteTitle = readNextLine("Enter a title for the note: ")
-            val notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
-            val noteCategory = readNextLine("Enter a category for the note: ")
-
-            //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-            if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, false))){
-                println("Update Successful")
-            } else {
-                println("Update Failed")
+        //logger.info { "addNote() function invoked" }
+        val noteTitle = readNextLine("Enter a title for the note: ")
+        // get the user to enter the priority of the note
+        var notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+        // validate if the note priority is withing 0 to 5
+        while(notePriority < 0 && notePriority > 5) {
+            notePriority = readNextInt("Enter a priority (1-low, 2, 3, 4, 5-high): ")
+            // if the priority is greater than 0 but less than 6 then break out of the while loop
+            if(notePriority > 0 && notePriority < 6){
+                break;
             }
-        } else {
-            println("There are no notes for this index number")
         }
+        // get the user to enter the category of the note
+        var noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
+        // validate if the category is one of the allowed categories
+        while(!noteCategory.equals("Shopping") || !noteCategory.equals("Bills") || !noteCategory.equals("Other") || !noteCategory.equals("College") || !noteCategory.equals("Home")) {
+            // if the category is correct then break out of the while loop
+            if(noteCategory.equals("Shopping") || noteCategory.equals("Bills") || noteCategory.equals("Other") || noteCategory.equals("College") || noteCategory.equals("Home")){
+                break;
+            }
+            noteCategory = readNextLine("Enter a category for the note, can be either Shopping, Bills, College, Home, Other:  ")
+        }
+        // get the user to enter the status of the note
+        var status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
+        // validate if the status is one fo the allowed statuses
+        while(!status.equals("ToDo") || !status.equals("Doing") || !status.equals("Done")) {
+            // if the status is correct then break out of the while loop
+            if(status.equals("ToDo") || status.equals("Doing") || status.equals("Done")){
+                break;
+            }
+            status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
+        }
+        var content = readNextLine("Enter the content of the note: ")
+        //pass the index of the note and the new note details to NoteAPI for updating and check for success.
+        if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, status, content,false))){
+            println("Update Successful")
+        } else {
+            println("Update Failed")
+        }
+    } else {
+        println("There are no notes for this index number")
     }
 }
 
+
 fun deleteNote(){
 //    logger.info { "deleteNote() function invoked" }
-
+    // list the notes
     listNotes()
+    // if there are notes
     if (noteAPI.numberOfNotes() > 0) {
         //only ask the user to choose the note to delete if notes exist
         val indexToDelete = readNextInt("Enter the index of the note to delete: ")
