@@ -5,4 +5,5 @@ data class Note(
     var notePriority: Int,
     var noteCategory: String,
     var status: String,
+    var content: String,
     var isNoteArchived :Boolean)

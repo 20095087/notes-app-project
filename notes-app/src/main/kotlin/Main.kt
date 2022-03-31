@@ -112,7 +112,9 @@ fun addNote(){
     while(!StatusUtility.isValidStatus(status)){
         status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
     }
-    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, status,false))
+    // get the user to enter the content of the note
+    var content = readNextLine("Enter the content of the note: ")
+    val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, status, content,false))
     if (isAdded) {
         println("Added Successfully")
     } else {
@@ -261,8 +263,9 @@ fun updateNote(){
             }
             status = readNextLine("Enter a status, can either be: ToDo, Doing, Done: ")
         }
+        var content = readNextLine("Enter the content of the note: ")
         //pass the index of the note and the new note details to NoteAPI for updating and check for success.
-        if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, status,false))){
+        if (noteAPI.updateNote(indexToUpdate, Note(noteTitle, notePriority, noteCategory, status, content,false))){
             println("Update Successful")
         } else {
             println("Update Failed")
